@@ -3,8 +3,10 @@ package lt.aukktv.projectsAndTasksbBackend.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lt.aukktv.projectsAndTasksbBackend.domain.Backlog;
 import lt.aukktv.projectsAndTasksbBackend.domain.Project;
 import lt.aukktv.projectsAndTasksbBackend.exceptions.ProjectIdException;
+import lt.aukktv.projectsAndTasksbBackend.repositories.BacklogRepository;
 import lt.aukktv.projectsAndTasksbBackend.repositories.ProjectRepository;
 
 @Service
@@ -13,9 +15,26 @@ public class ProjectService {
 	@Autowired
 	private ProjectRepository projectRepository;
 
+	@Autowired
+	private BacklogRepository backlogRepository;
+
 	public Project saveOrUpdateProject(Project project) {
 		try {
 			project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+
+			if (project.getId() == null) {
+				Backlog backlog = new Backlog();
+				// set the relationship:
+				project.setBacklog(backlog);
+				backlog.setProject(project);
+				backlog.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+			}
+
+			if (project.getId() != null) {
+				project.setBacklog(
+						backlogRepository.findByProjectIdentifier(project.getProjectIdentifier().toUpperCase()));
+			}
+
 			return projectRepository.save(project);
 		} catch (Exception e) {
 			throw new ProjectIdException(
