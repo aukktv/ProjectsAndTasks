@@ -32,15 +32,16 @@ public class ProjectTaskService {
 
 		// Update the BL sequence
 		backlogSequence++;
+		backlog.setPTSequence(backlogSequence);
 
 		// add sequence to PT
 		projectTask.setProjectSequence(projectIdentifier + "-" + backlogSequence);
 		projectTask.setProjectIdentifier(projectIdentifier);
 
 		// initial priority when priority null
-//		if (projectTask.getPriority() == 0 || projectTask.getPriority() == null) {
-//			projectTask.setPriority(3);
-//		}
+		if (projectTask.getPriority() == null) {
+			projectTask.setPriority(3);
+		}
 
 		// initial status when status null
 		if (projectTask.getStatus() == "" || projectTask.getStatus() == null) {
@@ -48,5 +49,10 @@ public class ProjectTaskService {
 		}
 
 		return projectTaskRepository.save(projectTask);
+	}
+
+	public Iterable<ProjectTask> findBacklogById(String id) {
+
+		return projectTaskRepository.findByProjectIdentifierOrderByPriority(id);
 	}
 }
