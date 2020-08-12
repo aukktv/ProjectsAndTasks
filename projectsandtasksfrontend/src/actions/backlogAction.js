@@ -9,7 +9,7 @@ export const addProjectTask = (backlog_id, project_task, history) => async dispa
         dispatch({
             type: GET_ERRORS,
             payload: {}
-        })
+        });
     } catch (err) {
         dispatch({
             type: GET_ERRORS,

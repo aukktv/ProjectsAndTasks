@@ -20,7 +20,7 @@ class AddProjectTask extends Component {
             "projectIdentifier": id,
             "errors": {}
         };
-        this.onCange = this.onCange.bind(this);
+        this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
@@ -31,7 +31,7 @@ class AddProjectTask extends Component {
     }
 
     //onChange
-    onCange(e) {
+    onChange(e) {
         this.setState({ [e.target.name]: e.target.value })
     }
     //onSubmit
@@ -73,7 +73,7 @@ class AddProjectTask extends Component {
                                             name="sumary"
                                             placeholder="Project Task summary"
                                             value={this.state.sumary}
-                                            onChange={this.onCange}
+                                            onChange={this.onChange}
                                         />
                                         {
                                             errors.sumary && (
@@ -87,7 +87,7 @@ class AddProjectTask extends Component {
                                             placeholder="Acceptance Criteria"
                                             name="acceptanceCriteria"
                                             value={this.state.acceptanceCriteria}
-                                            onChange={this.onCange}
+                                            onChange={this.onChange}
                                         ></textarea>
                                     </div>
                                     <h6>Due Date</h6>
@@ -97,15 +97,16 @@ class AddProjectTask extends Component {
                                             className="form-control form-control-lg"
                                             name="dueDate"
                                             value={this.state.dueDate}
-                                            onChange={this.onCange}
+                                            onChange={this.onChange}
                                         />
                                     </div>
                                     <div className="form-group">
                                         <select
                                             className="form-control form-control-lg"
-                                            name="priority">
+                                            name="priority"
                                             value={this.state.priority}
-                                            onChange={this.onCange}
+                                            onChange={this.onChange}
+                                        >
                                             <option value={0}>Select Priority</option>
                                             <option value={1}>High</option>
                                             <option value={2}>Medium</option>
@@ -118,7 +119,7 @@ class AddProjectTask extends Component {
                                             className="form-control form-control-lg"
                                             name="status"
                                             value={this.state.status}
-                                            onChange={this.onCange}
+                                            onChange={this.onChange}
                                         >
                                             <option value="">Select Status</option>
                                             <option value="TO_DO">TO DO</option>
