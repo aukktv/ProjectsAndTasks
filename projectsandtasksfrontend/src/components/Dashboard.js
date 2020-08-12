@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ProjectItem from './Project/ProjectItem';
 import CreateProjectButton from './Project/CreateProjectButton';
-import { connct, connect } from "react-redux";
+import { connect } from "react-redux";
 import { getProjects } from "../actions/projectActions";
 import PropTypes from "prop-types";
 
