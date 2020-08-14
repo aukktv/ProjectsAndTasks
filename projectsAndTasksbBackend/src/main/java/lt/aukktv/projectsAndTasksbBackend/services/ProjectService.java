@@ -7,6 +7,7 @@ import lt.aukktv.projectsAndTasksbBackend.domain.Backlog;
 import lt.aukktv.projectsAndTasksbBackend.domain.Project;
 import lt.aukktv.projectsAndTasksbBackend.domain.User;
 import lt.aukktv.projectsAndTasksbBackend.exceptions.ProjectIdException;
+import lt.aukktv.projectsAndTasksbBackend.exceptions.ProjectNotFoundException;
 import lt.aukktv.projectsAndTasksbBackend.repositories.BacklogRepository;
 import lt.aukktv.projectsAndTasksbBackend.repositories.ProjectRepository;
 import lt.aukktv.projectsAndTasksbBackend.repositories.UserRepository;
@@ -52,7 +53,9 @@ public class ProjectService {
 
 	}
 
-	public Project findByProjectIdentifier(String projectId) {
+	public Project findByProjectIdentifier(String projectId, String username) {
+
+		// Only want to return the project if the user looking for is the owner
 
 		Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
 
@@ -60,21 +63,20 @@ public class ProjectService {
 			throw new ProjectIdException("Project identifier " + projectId + " does not exist");
 		}
 
+		if (!project.getProjectLeader().equals(username)) {
+			throw new ProjectNotFoundException("Project not found in your account");
+		}
+
 		return project;
 	}
 
-	public Iterable<Project> findAllProjects() {
-		return projectRepository.findAll();
+	public Iterable<Project> findAllProjects(String username) {
+		return projectRepository.findAllByProjectLeader(username);
 	}
 
-	public void deleteProjectByIdentifier(String projectId) {
-		Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
+	public void deleteProjectByIdentifier(String projectId, String username) {
 
-		if (project == null) {
-			throw new ProjectIdException("Project " + projectId + " does not exist");
-		}
-
-		projectRepository.delete(project);
+		projectRepository.delete(findByProjectIdentifier(projectId, username));
 	}
 
 }
