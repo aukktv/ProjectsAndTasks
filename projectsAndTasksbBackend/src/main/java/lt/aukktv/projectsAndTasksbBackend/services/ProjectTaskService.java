@@ -44,7 +44,7 @@ public class ProjectTaskService {
 			projectTask.setProjectIdentifier(projectIdentifier);
 
 			// initial priority when priority null
-			if (projectTask.getPriority() == 0 || projectTask.getPriority() == null) { // postman'e, veikia tik be
+			if (projectTask.getPriority() == 0 || projectTask.getPriority() == null) { // postman'e veikia tik be
 																						// projectTask.getPriority() ==
 																						// 0 ||
 				projectTask.setPriority(3);
