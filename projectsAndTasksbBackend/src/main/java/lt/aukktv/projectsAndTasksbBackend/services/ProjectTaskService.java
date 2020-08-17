@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lt.aukktv.projectsAndTasksbBackend.domain.Backlog;
-import lt.aukktv.projectsAndTasksbBackend.domain.Project;
 import lt.aukktv.projectsAndTasksbBackend.domain.ProjectTask;
 import lt.aukktv.projectsAndTasksbBackend.exceptions.ProjectNotFoundException;
 import lt.aukktv.projectsAndTasksbBackend.repositories.BacklogRepository;
@@ -26,11 +25,12 @@ public class ProjectTaskService {
 	@Autowired
 	private ProjectService projectService;
 
-	public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask) {
+	public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask, String username) {
 		// Exceptions: project not found
 
 		// PTs to be added to a specific project, project != null, BL exist
-		Backlog backlog = backlogRepository.findByProjectIdentifier(projectIdentifier);
+		Backlog backlog = projectService.findByProjectIdentifier(projectIdentifier, username).getBacklog();
+		// = backlogRepository.findByProjectIdentifier(projectIdentifier);
 
 		// set the BL to PT
 		projectTask.setBacklog(backlog);
@@ -60,13 +60,9 @@ public class ProjectTaskService {
 
 	}
 
-	public Iterable<ProjectTask> findBacklogById(String id) {
+	public Iterable<ProjectTask> findBacklogById(String id, String username) {
 
-		Project project = projectRepository.findByProjectIdentifier(id);
-
-		if (project == null) {
-			throw new ProjectNotFoundException("Project " + id + " does not exist");
-		}
+		projectService.findByProjectIdentifier(id, username);
 
 		return projectTaskRepository.findByProjectIdentifierOrderByPriority(id);
 	}
