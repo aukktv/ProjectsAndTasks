@@ -14,6 +14,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -35,10 +36,13 @@ public class ProjectTask {
 
 	private Integer priority;
 
+	@JsonFormat(pattern = "yyyy-mm-dd")
 	private Date dueDate;
 
+	@JsonFormat(pattern = "yyyy-mm-dd")
 	private Date create_At;
 
+	@JsonFormat(pattern = "yyyy-mm-dd")
 	private Date update_At;
 
 	@Column(updatable = false)
