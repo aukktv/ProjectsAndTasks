@@ -65,7 +65,7 @@ class Register extends Component {
                                         className={classnames("form-control form-control-lg", {
                                             "is-invalid": errors.fullName
                                         })}
-                                        placeholder="Fuul Name"
+                                        placeholder="Full Name"
                                         name="fullName"
                                         value={this.state.fullName}
                                         onChange={this.onChange}
